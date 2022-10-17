@@ -39,6 +39,7 @@ async def text_parse(text: str) -> list:
                 validated_ip_lst.append(str(valid_ip))
     return validated_ip_lst
 
+
 async def _validate_ip(ip: str) -> IPv4Address | IPv6Address | None:
     try:
         valid_ip = ip_address(ip)

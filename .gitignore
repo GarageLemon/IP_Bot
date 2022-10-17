@@ -2,4 +2,4 @@
 test.py
 __pycache__/
 test_dir/
-example.txt
+example*
