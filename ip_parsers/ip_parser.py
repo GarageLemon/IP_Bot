@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from ipaddress import ip_address, IPv4Address, IPv6Address
+import aiofiles
 import re
 
 
@@ -24,8 +25,8 @@ async def message_text_parse(text: str) -> ParsedIPs:
 
 
 async def file_text_parse(filepath: str) -> ParsedIPs:
-    with open(filepath, 'r', encoding='utf-8', errors='ignore') as file:
-        validated_ip_lst = await text_parse(file.read().replace("\n", ""))
+    async with aiofiles.open(filepath, mode='r', encoding='utf-8', errors='ignore') as file:
+        validated_ip_lst = await text_parse(str(await file.read()).replace("\n", ""))
     return ParsedIPs(ip_lst=validated_ip_lst)
 
 
