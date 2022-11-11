@@ -1,12 +1,9 @@
-from aiogram import types, Dispatcher
-from aiogram.types import ContentTypes, Message, ReplyKeyboardRemove
+from aiogram import Dispatcher
+from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
-from create_bot import bot
-from os import path, remove
 from keyboards import make_settings_keyboard, kb_client_on_start
-from database.db_prompts import get_client_settings
 from config import ip_info_config
 from services import setting_data_to_str
 from database.db_prompts import set_new_settings

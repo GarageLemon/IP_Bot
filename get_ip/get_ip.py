@@ -1,9 +1,7 @@
 import asyncio
-import httpx
 from typing import Optional, Union
 from httpx import AsyncClient
 from pydantic import BaseModel as PydanticBaseModel, Field, validator
-from dataclasses import dataclass, field
 
 
 class BaseModel(PydanticBaseModel):

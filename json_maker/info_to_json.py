@@ -3,7 +3,6 @@ import aiofiles
 from get_ip.get_ip import OneIpInfo
 from handlers import client
 from aiogram import types
-from aiogram.types import ContentTypes, Message, InputFile
 from aiogram.types.input_file import InputFile
 from config import JSON_DOCUMENT_FOR_UPLOAD_DIR
 from datetime import datetime
