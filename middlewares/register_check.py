@@ -1,6 +1,6 @@
-from typing import Dict, Any
+from typing import Callable, Dict, Any, Awaitable, Union
 from aiogram.dispatcher.middlewares import BaseMiddleware
-from aiogram.types import Update
+from aiogram.types import Message, CallbackQuery, Update
 from database.db_prompts import check_user_registration, register_user
 
 

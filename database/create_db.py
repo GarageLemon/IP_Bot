@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import Column, Integer, BigInteger, Boolean, ForeignKey
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, BigInteger, String, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 from database.engine import engine
 
 
