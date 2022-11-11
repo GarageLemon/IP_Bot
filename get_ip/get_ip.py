@@ -6,11 +6,6 @@ from pydantic import BaseModel as PydanticBaseModel, Field, validator
 from dataclasses import dataclass, field
 
 
-@dataclass(slots=True, kw_only=True)
-class AllIpInfo:
-    ip_info_lst: list = field(default_factory=list)
-
-
 class BaseModel(PydanticBaseModel):
     @validator('*')
     def empty_str_to_none(cls, v):

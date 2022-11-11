@@ -12,7 +12,7 @@ from random import randint
 
 
 async def make_json_info(msg: types.Message, ip_info: list[OneIpInfo]) -> str:
-    base_ip_info_config = await client.make_prefered_info_lst(msg)
+    base_ip_info_config = await client.__make_prefered_info_lst(msg)
     json_info = [await convert_tup_to_dict([info for info in ip if info[0] in base_ip_info_config]) for ip in ip_info]
     json_data = json.dumps(json_info, indent=4)
     return json_data
