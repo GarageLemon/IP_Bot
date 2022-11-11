@@ -44,5 +44,5 @@ async def get_client_settings(msg: Message, async_session=session) -> dict:
 
 
 async def check_settings_set_up(msg: Message) -> bool:
-    pass
+
 
