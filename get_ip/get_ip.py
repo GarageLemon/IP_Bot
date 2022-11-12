@@ -61,15 +61,3 @@ async def get_all_ip_info(ip_lst: list) -> list[OneIpInfo]:
     for info in all_info:
         all_ip_info.append(OneIpInfo(**info))
     return all_ip_info
-
-
-# ip_lst = ['127.243.173.151',
-# '60.31.111.175',
-# '153.101.155.148',
-# '91.76.31.251',
-# '31.151.119.203',
-# '20.83.167.5',
-# '83.255.182.121',
-# '191.135.253.203',
-# '169.250.83.202',
-# '78.147.117.224']

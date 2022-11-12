@@ -43,6 +43,11 @@ async def get_client_settings(msg: Message, async_session=session) -> dict:
     return settings_data
 
 
-async def check_settings_set_up(msg: Message) -> bool:
-    pass
+async def check_settings_set_up(msg: Message, async_session=session) -> bool:
+    async with async_session() as s:
+        async with s.begin():
+            result: AsyncResult = await s.execute(select(User.user_settings).where(User.user_id == msg.from_user.id))
+            settings = result.scalars().first()
+    return settings
+
 

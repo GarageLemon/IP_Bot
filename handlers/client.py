@@ -12,7 +12,7 @@ from keyboards import kb_client_ip_number_wait, kb_client_json, kb_client_on_sta
 from get_ip.get_ip import get_all_ip_info, OneIpInfo
 from json_maker.info_to_json import make_json_info, json_document_maker
 from handlers.settings_set_up import FSMSettings
-from database.db_prompts import get_client_settings
+from database.db_prompts import get_client_settings, check_settings_set_up
 from services import setting_data_to_str
 
 
@@ -138,13 +138,10 @@ async def get_all_handler(msg: types.Message, state: FSMContext):
 
 
 async def show_ip_info(msg: types.Message, ip_info: list[OneIpInfo]):
-    #TODO add settings that will be unique for client and loads from db. \
-    # If settings not set up, then show default info
+    base_ip_info_config = await __make_prefered_info_lst(msg)
     for ip in ip_info:
         ip_info_msg = []
         for info in sorted(ip, key=lambda x: x[0] == 'query', reverse=True):
-            #TODO settings check
-            base_ip_info_config = await __make_prefered_info_lst(msg)
             if info[0] in base_ip_info_config:
                 one_ip_info = f"{ip_info_config[info[0]]}: {info[1]}"
                 ip_info_msg.append(one_ip_info)
@@ -152,8 +149,11 @@ async def show_ip_info(msg: types.Message, ip_info: list[OneIpInfo]):
 
 
 async def __make_prefered_info_lst(msg: types.Message) -> list[str]:
-    # if not settings:
-    base_ip_info_config = [info for ind, info in enumerate(ip_info_config.keys()) if ind < 10]
+    if await check_settings_set_up(msg):
+        ip_config = await get_client_settings(msg)
+        base_ip_info_config = [key for key, value in ip_config.items() if value]
+    else:
+        base_ip_info_config = [info for ind, info in enumerate(ip_info_config.keys()) if ind < 10]
     return base_ip_info_config
 
 
