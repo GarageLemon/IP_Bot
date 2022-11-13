@@ -3,6 +3,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Column, Integer, BigInteger, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 from database.engine import engine
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.engine.url import URL
+from sqlalchemy import text
+import asyncpg
 
 
 DeclarativeBase = declarative_base()
@@ -56,8 +60,35 @@ class Settings(DeclarativeBase):
     __mapper_args__ = {"eager_defaults": True}
 
 
+async def connect_create_if_not_exists(db_config: dict):
+    try:
+        conn = await asyncpg.connect(
+            database=db_config['database'],
+            user=db_config['username'],
+            password=db_config['password'],
+            host='localhost',
+            port=db_config['port']
+        )
+        await conn.close()
+    except asyncpg.InvalidCatalogNameError:
+        # Database does not exist, create it.
+        sys_conn = await asyncpg.connect(
+            database='template1',
+            user=db_config['username'],
+            password=db_config['password'],
+            host='localhost',
+            port=db_config['port']
+        )
+        await sys_conn.execute(
+            f"CREATE DATABASE {db_config['database']} OWNER {db_config['username']}"
+        )
+        await sys_conn.close()
+
+
 async def make_db(base=DeclarativeBase, engine=engine):
     async with engine.begin() as conn:
-        await conn.run_sync(base.metadata.drop_all)
+        # If this part is not commented, db will be dropped every time when bot starts,
+        # to save information keep it as is
+        # await conn.run_sync(base.metadata.drop_all)
         await conn.run_sync(base.metadata.create_all)
 

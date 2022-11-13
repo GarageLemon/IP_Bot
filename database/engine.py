@@ -1,6 +1,9 @@
+from enum import Enum
+
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.engine.url import URL
 from config import PsqlUserInfo
+from dataclasses import dataclass
 
 
 DATABASE = {
@@ -11,5 +14,6 @@ DATABASE = {
     'password': PsqlUserInfo.PSQL_PASSWORD,
     'database': PsqlUserInfo.PSQL_DB_NAME
 }
+
 
 engine = create_async_engine(URL.create(**DATABASE))
